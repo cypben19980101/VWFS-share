@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享活動中...</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+    <h2 style="text-align: center; margin-top: 50px;">正在載入分享視窗...</h2>
+
+    <script>
+        // 【注意】底下的 'YOUR_LIFF_ID' 晚點拿到後要回來修改
+        const MY_LIFF_ID = 'YOUR_LIFF_ID'; 
+
+        liff.init({ liffId: MY_LIFF_ID })
+            .then(() => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                } else {
+                    liff.shareTargetPicker([
+                        {
+                            "type": "flex",
+                            "altText": "您收到一個精選分享！",
+                            "contents": {
+                              "type": "bubble",
+                              "hero": {
+                                "type": "image",
+                                "url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1000",
+                                "size": "full",
+                                "aspectRatio": "20:13",
+                                "aspectRatioMode": "cover"
+                              },
+                              "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "text": "VWFS 精選方案全新登場",
+                                    "weight": "bold",
+                                    "size": "xl"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "點擊下方按鈕查看專屬活動詳情與最新資訊。",
+                                    "color": "#666666",
+                                    "size": "sm",
+                                    "wrap": true,
+                                    "margin": "md"
+                                  }
+                                ]
+                              },
+                              "footer": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "button",
+                                    "action": {
+                                      "type": "uri",
+                                      "label": "查看詳情",
+                                      "uri": "https://www.vwfs.com.tw"
+                                    },
+                                    "style": "primary"
+                                  }
+                                ]
+                              }
+                            }
+                        }
+                    ]).then((res) => {
+                        if (res) { console.log("分享成功"); }
+                        liff.closeWindow(); 
+                    }).catch((err) => {
+                        console.error("分享取消或失敗：", err);
+                        liff.closeWindow();
+                    });
+                }
+            })
+            .catch((err) => { liff.closeWindow(); });
+    </script>
+</body>
+</html>
